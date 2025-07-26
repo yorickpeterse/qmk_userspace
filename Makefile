@@ -1,3 +1,5 @@
+SWEEP := splitkb/aurora/sweep/rev1
+
 .SILENT:
 
 MAKEFLAGS += --no-print-directory
@@ -14,3 +16,11 @@ endif
 
 %:
 	+$(MAKE) -C $(QMK_FIRMWARE_ROOT) $(MAKECMDGOALS) QMK_USERSPACE=$(QMK_USERSPACE)
+
+sweep:
+	qmk flash -kb ${SWEEP} -km yorickpeterse
+
+sweep-clang:
+	qmk compile --compiledb -kb ${SWEEP} -km yorickpeterse
+
+.PHONY: sweep sweep-clang
