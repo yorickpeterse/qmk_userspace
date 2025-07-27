@@ -1,7 +1,5 @@
-#include "color.h"
 #include "config.h"
 #include "gpio.h"
-#include "rgblight.h"
 #include QMK_KEYBOARD_H
 
 #define KC_____ KC_TRNS
