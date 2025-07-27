@@ -139,34 +139,15 @@ void after_oneshot(struct oneshot_state *state, keyrecord_t *record) {
   }
 }
 
-bool shift_space_action(bool pressed, void *state) {
-  if (pressed) {
-    layer_on(SECONDARY);
-  } else {
-    layer_off(SECONDARY);
-  }
-
-  return false;
+void process_oneshot_modifiers(keyrecord_t *record) {
+  after_oneshot(&shift_state, record);
+  after_oneshot(&ctl_state, record);
 }
 
 const key_override_t override_shift_dot =
     ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_RALT);
 
-const key_override_t override_shift_space = {
-    .trigger_mods = MOD_BIT(KC_LSFT),
-    .layers = ~0,
-    .suppressed_mods = MOD_BIT(KC_LSFT),
-    .options = ko_option_no_unregister_on_other_key_down,
-    .negative_mod_mask = 0,
-    .custom_action = shift_space_action,
-    .context = NULL,
-    .trigger = KC_SPACE,
-    .replacement = KC_NO,
-    .enabled = NULL,
-};
-
 const key_override_t *key_overrides[] = {
-    &override_shift_space,
     &override_shift_dot,
 };
 
@@ -334,9 +315,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     break;
   case KC_FUNC:
     break;
+  case KC_SPACE:
+    // Key overrides that enable a layer don't work well with modifiers on the
+    // target layer. For example, using an override for `Shift+Space` followed
+    // by pressing Alt on the target layer seems to result in the layer being
+    // deactivated _first_, then the normal key at the Alt position is
+    // triggered.
+    if (record->event.pressed && shift_state.status == OS_RELEASED &&
+        ctl_state.status == OS_DISABLED) {
+      shift_state.status = OS_DISABLED;
+      unregister_code(shift_state.modifier);
+      layer_on(SECONDARY);
+      return false;
+    } else if (!record->event.pressed && layer_state_is(SECONDARY)) {
+      layer_off(SECONDARY);
+      return false;
+    }
+
+    process_oneshot_modifiers(record);
+    break;
   default:
-    after_oneshot(&shift_state, record);
-    after_oneshot(&ctl_state, record);
+    process_oneshot_modifiers(record);
     break;
   }
 
