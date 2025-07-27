@@ -283,6 +283,10 @@ void led_blue(void) {
   rgblight_sethsv_noeeprom(170, 255, LED_VAL);
 }
 
+void led_pink(void) {
+  rgblight_sethsv_noeeprom(234, 128, LED_VAL);
+}
+
 void led_off(void) {
   rgblight_sethsv_noeeprom(HSV_BLACK);
 }
@@ -345,6 +349,9 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   switch (get_highest_layer(state)) {
   case MOUSE:
     led_blue();
+    break;
+  case FUNCTION:
+    led_pink();
     break;
   default:
     led_off();
