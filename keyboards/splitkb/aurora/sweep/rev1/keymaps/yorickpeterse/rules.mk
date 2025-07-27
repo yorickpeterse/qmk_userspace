@@ -8,3 +8,7 @@ MOUSEKEY_ENABLE = yes
 NKRO_ENABLE = yes
 SPLIT_KEYBOARD = yes
 CONVERT_TO = liatris
+
+RGB_MATRIX_ENABLE = no
+RGBLIGHT_ENABLE = yes  # Enables QMK's RGB code
+WS2812_DRIVER = vendor # Use the RP2040's PIO interface

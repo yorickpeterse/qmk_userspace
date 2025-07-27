@@ -1,6 +1,7 @@
+#include "color.h"
 #include "config.h"
-#include <stdint.h>
-#include <sys/types.h>
+#include "gpio.h"
+#include "rgblight.h"
 #include QMK_KEYBOARD_H
 
 #define KC_____ KC_TRNS
@@ -19,6 +20,8 @@
 #define KC_OCTL ONESHOT_CTL
 #define KC_CAPS CW_TOGG
 #define KC_STAB LSFT(KC_TAB)
+#define LED_PIN 24
+#define LED_VAL 32
 
 // For some reason using _just_ KC_LGUI on an OSL layer results in it not
 // working as it should, resulting in e.g. Gnome's overview not focusing the
@@ -276,6 +279,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
+void led_blue(void) {
+  rgblight_sethsv_noeeprom(170, 255, LED_VAL);
+}
+
+void led_off(void) {
+  rgblight_sethsv_noeeprom(HSV_BLACK);
+}
+
+void keyboard_pre_init_user(void) {
+  // Disable the power LED since it's way too bright.
+  gpio_set_pin_output(LED_PIN);
+  gpio_write_pin_high(LED_PIN);
+}
+
+void keyboard_post_init_user(void) {
+  rgblight_enable_noeeprom();
+  led_off();
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   last_key_press = timer_read32();
 
@@ -316,6 +339,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   return true;
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  switch (get_highest_layer(state)) {
+  case MOUSE:
+    led_blue();
+    break;
+  default:
+    led_off();
+    break;
+  }
+
+  return state;
 }
 
 bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {

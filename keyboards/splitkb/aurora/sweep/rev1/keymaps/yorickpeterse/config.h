@@ -1,29 +1,4 @@
-/* Copyright 2022 splitkb.com <support@splitkb.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 #pragma once
-
-// Not yet available in `keymap.json` format
-#ifdef RGB_MATRIX_ENABLE
-#define RGB_MATRIX_SLEEP
-#define RGB_MATRIX_KEYPRESSES
-#define ENABLE_RGB_MATRIX_SOLID_REACTIVE_SIMPLE
-#define ENABLE_RGB_MATRIX_SOLID_SPLASH
-#define ENABLE_RGB_MATRIX_RAINBOW_BEACON
-#endif
 
 #undef IGNORE_MOD_TAP_INTERRUPT
 #undef ONESHOT_TIMEOUT
@@ -33,6 +8,14 @@
 #undef MOUSEKEY_DELAY
 #undef MOUSEKEY_TIME_TO_MAX
 #undef MOUSEKEY_WHEEL_DELAY
+#undef WS2812_DI_PIN
+
+#undef RGBLED_SPLIT
+#undef RGBLIGHT_LED_COUNT
+#undef RGBLIGHT_EFFECT_STATIC_GRADIENT
+#undef RGBLIGHT_EFFECT_RAINBOW_SWIRL
+
+#define EE_HANDS
 
 #define RETRO_TAPPING
 #define ONESHOT_TAP_TOGGLE 5
@@ -63,6 +46,10 @@
 
 #define DEBOUNCE 5
 #define USB_POLLING_INTERVAL_MS 1
+
+#define WS2812_DI_PIN 25
+#define RGBLED_SPLIT {1, 1}
+#define RGBLIGHT_LED_COUNT 2
 
 // clang-format off
 #define MAP( \
