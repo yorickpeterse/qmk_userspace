@@ -165,24 +165,24 @@ uint32_t last_key_press = 0;
 
 const uint16_t PROGMEM combo_esc[] = {KC_P, KC_F, COMBO_END};
 const uint16_t PROGMEM combo_ctl[] = {KC_C, KC_D, COMBO_END};
-const uint16_t PROGMEM combo_stab[] = {KC_D, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_lalt[] = {KC_X, KC_C, COMBO_END};
 
 const uint16_t PROGMEM combo_nav[] = {KC_U, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_tab[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM combo_stab[] = {KC_H, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_ent[] = {KC_COMMA, KC_H, COMBO_END};
-const uint16_t PROGMEM combo_tab[] = {KC_H, KC_K, COMBO_END};
 
 combo_t key_combos[] = {
     // Left
     [COMBO_ESC] = COMBO(combo_esc, KC_ESC),
     [COMBO_CTL] = COMBO(combo_ctl, KC_OCTL),
-    [COMBO_STAB] = COMBO(combo_stab, LSFT(KC_TAB)),
     [COMBO_LALT] = COMBO(combo_lalt, KC_LALT),
 
     // Right
     [COMBO_NAV] = COMBO(combo_nav, KC_NAV),
-    [COMBO_ENT] = COMBO(combo_ent, KC_ENTER),
     [COMBO_TAB] = COMBO(combo_tab, KC_TAB),
+    [COMBO_STAB] = COMBO(combo_stab, LSFT(KC_TAB)),
+    [COMBO_ENT] = COMBO(combo_ent, KC_ENTER),
 };
 
 // clang-format off
