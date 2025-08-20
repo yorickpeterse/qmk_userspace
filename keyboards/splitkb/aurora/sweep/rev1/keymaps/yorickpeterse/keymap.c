@@ -375,7 +375,7 @@ uint32_t combo_idle_time(uint16_t index) {
   case COMBO_ENT:
   case COMBO_ESC:
   case COMBO_TAB:
-    return 25;
+    return 15;
   default:
     return 50;
   }
