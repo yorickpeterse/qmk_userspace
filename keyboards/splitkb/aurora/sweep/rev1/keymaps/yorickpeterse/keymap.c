@@ -152,27 +152,30 @@ const key_override_t *key_overrides[] = {
 };
 
 enum combos {
+  // Left
   COMBO_ESC,
   COMBO_LCTL,
-  COMBO_RCTL,
-  COMBO_NAV,
-  COMBO_ENT,
-  COMBO_TAB,
-  COMBO_STAB,
   COMBO_LALT,
+
+  // Right
+  COMBO_NAV,
+  COMBO_STAB,
+  COMBO_TAB,
+  COMBO_ENT,
+  COMBO_RCTL,
 };
 
 uint32_t last_key_press = 0;
 
 const uint16_t PROGMEM combo_esc[] = {KC_F, KC_P, COMBO_END};
-const uint16_t PROGMEM combo_lctl[] = {KC_D, KC_V, COMBO_END};
+const uint16_t PROGMEM combo_lctl[] = {KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM combo_lalt[] = {KC_X, KC_C, COMBO_END};
 
-const uint16_t PROGMEM combo_stab[] = {KC_L, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_rctl[] = {KC_H, KC_K, COMBO_END};
-const uint16_t PROGMEM combo_tab[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM combo_nav[] = {KC_U, KC_L, COMBO_END};
-const uint16_t PROGMEM combo_ent[] = {KC_COMMA, KC_H, COMBO_END};
+const uint16_t PROGMEM combo_stab[] = {KC_L, KC_J, COMBO_END};
+const uint16_t PROGMEM combo_tab[] = {KC_N, KC_M, COMBO_END};
+const uint16_t PROGMEM combo_ent[] = {KC_E, KC_N, COMBO_END};
+const uint16_t PROGMEM combo_rctl[] = {KC_COMMA, KC_H, COMBO_END};
 
 combo_t key_combos[] = {
     // Left
@@ -183,7 +186,7 @@ combo_t key_combos[] = {
     // Right
     [COMBO_NAV] = COMBO(combo_nav, KC_NAV),
     [COMBO_RCTL] = COMBO(combo_rctl, KC_OCTL),
-    [COMBO_STAB] = COMBO(combo_stab, LSFT(KC_TAB)),
+    [COMBO_STAB] = COMBO(combo_stab, KC_STAB),
     [COMBO_TAB] = COMBO(combo_tab, KC_TAB),
     [COMBO_ENT] = COMBO(combo_ent, KC_ENTER),
 };
@@ -375,9 +378,8 @@ uint32_t combo_idle_time(uint16_t index) {
   case COMBO_NAV:
   case COMBO_LALT:
     return 125;
-  case COMBO_ENT:
   case COMBO_ESC:
-  case COMBO_TAB:
+  case COMBO_ENT:
     return 15;
   default:
     return 50;
@@ -386,15 +388,7 @@ uint32_t combo_idle_time(uint16_t index) {
 
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo,
                           uint16_t keycode, keyrecord_t *record) {
-  // Always enable the Enter combo since it often (rapidly) follows other button
-  // presses (e.g. when mashing `ls<Enter>`).
-  if (combo_index == COMBO_ENT) {
-    return true;
-  }
-
-  // Combos other than the Enter combo are disabled if the oneshot shift key is
-  // enabled. This way I can type e.g. "Fp" without triggering an "fp" combo.
-  if (combo_index != COMBO_ENT && shift_state.status != OS_DISABLED) {
+  if (shift_state.status != OS_DISABLED) {
     return false;
   }
 
