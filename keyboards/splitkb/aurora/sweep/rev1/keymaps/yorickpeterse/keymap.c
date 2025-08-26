@@ -377,7 +377,7 @@ uint32_t combo_idle_time(uint16_t index) {
   switch (index) {
   case COMBO_NAV:
   case COMBO_LALT:
-    return 125;
+    return 100;
   case COMBO_ESC:
   case COMBO_ENT:
   case COMBO_TAB:
