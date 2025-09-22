@@ -171,11 +171,11 @@ const uint16_t PROGMEM combo_esc[] = {KC_F, KC_P, COMBO_END};
 const uint16_t PROGMEM combo_lctl[] = {KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM combo_lalt[] = {KC_X, KC_C, COMBO_END};
 
-const uint16_t PROGMEM combo_nav[] = {KC_U, KC_L, COMBO_END};
 const uint16_t PROGMEM combo_stab[] = {KC_L, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_tab[] = {KC_N, KC_M, COMBO_END};
 const uint16_t PROGMEM combo_ent[] = {KC_E, KC_N, COMBO_END};
 const uint16_t PROGMEM combo_rctl[] = {KC_COMMA, KC_H, COMBO_END};
+const uint16_t PROGMEM combo_nav[] = {KC_DOT, KC_COMMA, COMBO_END};
 
 combo_t key_combos[] = {
     // Left
@@ -184,11 +184,11 @@ combo_t key_combos[] = {
     [COMBO_LALT] = COMBO(combo_lalt, KC_LALT),
 
     // Right
-    [COMBO_NAV] = COMBO(combo_nav, KC_NAV),
     [COMBO_RCTL] = COMBO(combo_rctl, KC_OCTL),
     [COMBO_STAB] = COMBO(combo_stab, KC_STAB),
     [COMBO_TAB] = COMBO(combo_tab, KC_TAB),
     [COMBO_ENT] = COMBO(combo_ent, KC_ENTER),
+    [COMBO_NAV] = COMBO(combo_nav, KC_NAV),
 };
 
 // clang-format off
@@ -375,13 +375,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 uint32_t combo_idle_time(uint16_t index) {
   switch (index) {
-  case COMBO_NAV:
-  case COMBO_LALT:
-    return 100;
   case COMBO_ESC:
   case COMBO_ENT:
   case COMBO_TAB:
   case COMBO_STAB:
+  case COMBO_NAV:
     return 15;
   default:
     return 50;
