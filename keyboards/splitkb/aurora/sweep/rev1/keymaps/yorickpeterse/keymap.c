@@ -386,11 +386,27 @@ uint32_t combo_idle_time(uint16_t index) {
   }
 }
 
+uint16_t get_combo_term(uint16_t combo_index, combo_t *combo) {
+  switch (combo_index) {
+  case COMBO_ESC:
+  case COMBO_NAV:
+    return 40;
+  default:
+    return COMBO_TERM;
+  }
+}
+
 bool combo_should_trigger(uint16_t combo_index, combo_t *combo,
                           uint16_t keycode, keyrecord_t *record) {
   if (shift_state.status != OS_DISABLED) {
     return false;
   }
 
-  return timer_elapsed32(last_key_press) >= combo_idle_time(combo_index);
+  switch (combo_index) {
+  case COMBO_ESC:
+  case COMBO_NAV:
+    return true;
+  default:
+    return timer_elapsed32(last_key_press) >= combo_idle_time(combo_index);
+  }
 }
