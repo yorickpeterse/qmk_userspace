@@ -1,26 +1,11 @@
 SWEEP := splitkb/aurora/sweep/rev1
-
-.SILENT:
-
-MAKEFLAGS += --no-print-directory
-
-QMK_USERSPACE := $(patsubst %/,%,$(dir $(shell realpath "$(lastword $(MAKEFILE_LIST))")))
-ifeq ($(QMK_USERSPACE),)
-    QMK_USERSPACE := $(shell pwd)
-endif
-
-QMK_FIRMWARE_ROOT = $(shell qmk config -ro user.qmk_home | cut -d= -f2 | sed -e 's@^None$$@@g')
-ifeq ($(QMK_FIRMWARE_ROOT),)
-    $(error Cannot determine qmk_firmware location. `qmk config -ro user.qmk_home` is not set)
-endif
-
-%:
-	+$(MAKE) -C $(QMK_FIRMWARE_ROOT) $(MAKECMDGOALS) QMK_USERSPACE=$(QMK_USERSPACE)
+QMK_FIRMWARE_ROOT = ${HOME}/Projects/qmk_firmware
+QMK_USERSPACE = ${HOME}/Projects/qmk_userspace
 
 sweep:
-	qmk flash -kb ${SWEEP} -km yorickpeterse
+	toolbox run --container qmk qmk flash -kb ${SWEEP} -km yorickpeterse
 
 sweep-clang:
-	qmk compile --compiledb -kb ${SWEEP} -km yorickpeterse
+	toolbox run --container qmk qmk compile --compiledb -kb ${SWEEP} -km yorickpeterse
 
 .PHONY: sweep sweep-clang
