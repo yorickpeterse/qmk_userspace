@@ -376,6 +376,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 uint32_t combo_idle_time(uint16_t index) {
   switch (index) {
   case COMBO_ENT:
+  case COMBO_LALT:
     return 25;
   case COMBO_ESC:
   case COMBO_TAB:
