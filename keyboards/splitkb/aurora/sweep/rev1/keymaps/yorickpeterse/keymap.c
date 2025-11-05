@@ -13,6 +13,7 @@
 #define KC_FULL LALT(KC_F11)
 #define KC_LOCK LCTL(LALT(KC_DEL))
 #define KC_CTL(KEY) LCTL(KC_##KEY)
+#define KC_SUP(KEY) LGUI(KC_##KEY)
 #define KC_ALT(KEY) LALT(KC_##KEY)
 #define KC_RESET QK_BOOT
 #define KC_OCTL ONESHOT_CTL
@@ -238,7 +239,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // -----------------------------------------      -----------------------------------------
              ____  , LEFT  , DOWN  , RIGHT , PGUP  ,        ____  ,CTL(F1),CTL(F2),CTL(F3),CTL(F4),
         // -----------------------------------------      -----------------------------------------
-             ____  , CTL(1), CTL(2), CTL(3), PGDN  ,        ____  , ____  , ____  , ____  , ____  ,
+             ____  , SUP(1), SUP(2), SUP(3), PGDN  ,        ____  , ____  , ____  , ____  , ____  ,
         // -----------------------------------------      -----------------------------------------
         //                         --------+--------      ---------+---------
                                      ____  , ____  ,         SUPER ,  ____
